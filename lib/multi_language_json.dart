@@ -127,8 +127,11 @@ class MultiLanguageBloc implements _Bloc {
 
   /// Change current language passing prefix ex: [changeLanguage('en_US')]
   Future<void> changeLanguage(String prefix) async {
+    final prefs = await SharedPreferences.getInstance();
+    var lang=prefs.getString("lang").toString();
+    if(lang==null || lang=='') lang=this.defaultLanguage;
     if (_languages[prefix] == null) {
-      prefix = this.defaultLanguage;
+      prefix = lang;
       print(
           'setting language with defaultLanguage because prefix: $prefix dont exists in map!');
     }
@@ -136,6 +139,7 @@ class MultiLanguageBloc implements _Bloc {
     if (this.lastLanguage != prefix) {
       this.lastLanguage = prefix;
       _language.sink.add(_languages[this.lastLanguage]);
+      prefs.setString("lang", prefix);
       print('language inited with language: $prefix');
     } else {
       print(
