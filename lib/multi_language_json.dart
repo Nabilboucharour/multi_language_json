@@ -119,7 +119,7 @@ class MultiLanguageBloc implements _Bloc {
 
   Future<MultiLanguageBloc> _setDeviceLanguage() async {
     final prefs = await SharedPreferences.getInstance();
-    var lang=prefs.getString("lang").toString();
+    var lang=prefs.getString("lang");
     if(lang==null || lang=='') lang=this.defaultLanguage;
     await changeLanguage(lang);
     return this;
@@ -128,7 +128,7 @@ class MultiLanguageBloc implements _Bloc {
   /// Change current language passing prefix ex: [changeLanguage('en_US')]
   Future<void> changeLanguage(String prefix) async {
     final prefs = await SharedPreferences.getInstance();
-    var lang=prefs.getString("lang").toString();
+    var lang=prefs.getString("lang");
     if(lang==null || lang=='') lang=this.defaultLanguage;
     if (_languages[prefix] == null) {
       prefix = lang;
