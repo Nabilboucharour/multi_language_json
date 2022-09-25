@@ -6,7 +6,7 @@ import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class MultiStreamLanguage extends StatelessWidget {
   /// On language change
   final Function? onChange;
@@ -118,7 +118,10 @@ class MultiLanguageBloc implements _Bloc {
   }
 
   Future<MultiLanguageBloc> _setDeviceLanguage() async {
-    await changeLanguage(this.defaultLanguage);
+    final prefs = await SharedPreferences.getInstance();
+    var lang=prefs.getString("lang").toString();
+    if(lang==null || lang=='') lang=this.defaultLanguage;
+    await changeLanguage(lang);
     return this;
   }
 
